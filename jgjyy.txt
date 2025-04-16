@@ -1,0 +1,67 @@
+1.
+
+a. git clone https://github.com/your_username/myrepo.git
+b. git clone https://github.com/your_username/secRepo.git
+   cd secRepo
+   vi README.md
+   git add README.md
+   git commit -m "Updated README.md to describe the purpose of the repository"
+c. git config --global user.name "your_username"
+   git config --global user.email "your_email"
+   git config --global --list
+d. git pull origin main
+e. vi README.md
+   vi index.html
+   git add README.md index.html
+   git commit -m "Updated README.md and added index.html"
+f. git push --set-upstream origin main
+
+
+2.
+
+a)
+i)  vi README.md
+    git add README.md
+    git commit -m "C0: Added <h1> tag in README.md"
+
+ii) vi notes.txt
+    git add notes.txt
+    git commit -m "C1: Created notes.txt file"
+
+iii) vi notes.txt
+     git add notes.txt
+     git commit -m "C2: Modified notes.txt file"
+
+iv)  git push origin main
+
+b)
+i) git checkout -b iss53
+ii)vi index.html
+   vi README.md
+   git add index.html README.md
+   git commit -m "C3: Created index.html and Updated README.md"
+iii)git log --oneline
+    git diff <commit-id-C1> <commit-id-C2>
+    git diff main iss53
+    git push --set-upstream origin iss53
+
+c)
+i) git checkout main
+   git checkout -b hotfix
+ii)vi notes.txt
+   git add notes.txt
+   git commit -m "C4: Hotfix - updated notes.txt"
+iii)git push --set-upstream origin hotfix
+
+d)
+i) git checkout main
+ii)git merge hotfix
+iii)git branch -d hotfix
+   git push origin --delete hotfix
+
+e)
+i) git checkout main
+ii)git merge iss53
+iii)git branch -d iss53
+    git push origin --delete iss53
+
