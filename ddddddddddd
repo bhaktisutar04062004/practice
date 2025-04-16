@@ -1,0 +1,95 @@
+1)
+
+A.
+docker network create -d bridge my-bridge-network
+
+docker network create mongo-network
+
+docker run --name mongodb \
+  -p 27017:27017 \
+  -e MONGO_INITDB_ROOT_USERNAME=admin \
+  -e MONGO_INITDB_ROOT_PASSWORD=password \
+  --net mongo-network \
+  -d mongo
+
+docker ps -a
+
+http://localhost:27017
+
+
+B.
+
+docker network create -d bridge my-bridge-network
+
+docker run --name mongo-express \
+  -p 8081:8081 \
+  -e ME_CONFIG_MONGODB_ADMINUSERNAME=admin \
+  -e ME_CONFIG_MONGODB_ADMINPASSWORD=password \
+  -e ME_CONFIG_MONGODB_SERVER=mongodb \
+  --net mongo-network \
+  -d mongo-express
+
+docker ps -a
+
+http://localhost:8081
+
+
+Username: admin
+Password: pass
+
+
+2)
+
+mkdir mongo-compose
+
+cd mongo-compose
+
+vim docker-compose.yml
+
+............................................................................
+
+version: '3.1'
+
+services:
+
+  mongodb:
+    image: mongo
+    restart: always
+    ports:
+       - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - mongo-data:/data/db
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: password
+      ME_CONFIG_MONGODB_SERVER: mongodb
+
+volumes:
+  mongo-data:
+    driver: local
+
+............................................................................
+
+docker compose up -d
+
+http://localhost:8081
+
+
+
+Stop All Containers
+docker stop $(docker ps -aq)
+
+Remove All Containers
+docker rm $(docker ps -aq)
+
+Remove the network
+docker network rm mongo-network
