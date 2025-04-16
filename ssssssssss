@@ -1,0 +1,50 @@
+apt  install nodejs
+apt install npm
+npm init
+ vim server.js
+
+// server.js
+const http = require('http');
+
+const hostname = '0.0.0.0';
+const port = 3000;
+
+const server = http.createServer((req, res) => {
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/plain');
+  res.end('Hello, Docker!');
+});
+
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});
+
+
+
+
+
+ 
+ (use ls to check files are available or not)----> [ package.json package-lock.json server.js ]
+
+vim Dockerfile
+
+FROM node:16
+
+WORKDIR /usr/src/app
+
+COPY package.json package-lock.json ./
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 3000
+
+CMD ["npm", "start"]
+
+
+ 
+ 
+ sudo docker build -t my-node .
+ sudo docker run --name node-server -d my-node
+ sudo docker run -p 3000:3000 my-node   
